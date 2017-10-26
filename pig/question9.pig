@@ -2,7 +2,9 @@
 
 register /usr/local/hive/lib/hive-exec-1.2.1.jar
 register /usr/local/hive/lib/hive-common-1.2.1.jar
-data = LOAD 'hdfs://localhost:54310/user/hive/warehouse/niit_h1b.db/h1b_final' USING PigStorage('\t') as (s_no:double,case_status:chararray,employer_name:chararray,soc_name:chararray,job_title:chararray,full_time_position:chararray,prevailing_wage:double,year:chararray,worksite:chararray,longitude,latitude);
+
+data = LOAD '/user/hive/warehouse/h1b_final' USING PigStorage('\t') as (s_no:double,case_status:chararray,employer_name:chararray,soc_name:chararray,job_title:chararray,full_time_position:chararray,prevailing_wage:double,year:chararray,worksite:chararray,longitude,latitude);
+
 number= filter data by $1 is not null and $1!='NA';
 petitions= group number by $2;
 total= foreach petitions generate group,COUNT(number.$0);
@@ -29,5 +31,4 @@ result = filter intermediateoutput by $1>70 and $2>1000;
 final = order result by $1 desc;
 dump final;
 
-store finaloutput into 'hdfs://localhost:54310/niit/pig/question9' using PigStorage('\t');
 

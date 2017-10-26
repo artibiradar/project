@@ -29,5 +29,4 @@ result= filter intermediateoutput by $1>70 and $2>1000;
 final= order result by $1 desc;
 dump final;
 
-store finaloutput into 'hdfs://localhost:54310/niit/pig/question10' using PigStorage('\t');
 
